@@ -24,7 +24,9 @@ setuptools.setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'build_alzkb=alzkb.build.db:main'
+            'alzkb-bootstrap=alzkb.build.bootstrap:main'
+            'alzkb-build=alzkb.build.db:main'
+            'alzkb-install=alzkb.build.install:main'
         ]
     }
 )
