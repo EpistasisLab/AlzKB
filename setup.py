@@ -22,11 +22,12 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     python_requires=">=3.7",
     include_package_data=True,
+    install_requires=[
+        'ista @ git+https://github.com/JDRomano2/ista=ista'
+    ],
     entry_points={
         'console_scripts': [
-            'alzkb-bootstrap=alzkb.build.bootstrap:main'
-            'alzkb-build=alzkb.build.db:main'
-            'alzkb-install=alzkb.build.install:main'
+            'alzkb=alzkb.build:main'
         ]
     }
 )
