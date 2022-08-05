@@ -1,6 +1,6 @@
-# AlzKB
+# AlzKB (http://alzkb.ai/)
 
-A knowledge base for AI research in Alzheimer Disease, based on graph databases.
+A knowledge base for AI research in Alzheimer Disease, based on graph databases. 
 
 ### Authors
 
