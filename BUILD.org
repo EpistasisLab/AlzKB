@@ -16,7 +16,15 @@ The following diagram gives an overview of the build process:
 #+CAPTION: Summary of how to build AlzKB
 [[./img/build-abstract.png]]
 
-* Creating the AlzKB Ontology
+1. First, you use domain knowledge to [[1.: Creating the AlzKB
+   Ontology][create the ontology]]
+2. Then, you [[2.: Obtaining the third-party data sources][collect the
+   data sources]] and use them to [[2.5: Populating the
+   ontology][populate the ontology]]
+3. Finally, you [[3.: Converting the ontology into a Neo4j graph
+   database][convert the ontology into a graph database]]
+
+* 1.: Creating the AlzKB Ontology
 _Important note_: Most users don't need to follow these steps, since
 it is already done! Unless you want to extend AlzKB or make major
 modifications to its node/edge types, you should skip to the [[Obtaining the third-party data sources][next
@@ -30,9 +38,7 @@ constructed manually, using domain knowledge about AD. We do this
 using the Protégé ontology editor. If you don't already have it,
 download and install [[https://protege.stanford.edu/products.php][Protégé Desktop]] on your computer.
 
-
-
-* Obtaining the third-party data sources
+* 2.: Obtaining the third-party data sources
 The next step is to collect the source data files that will eventually
 become the nodes, relationships, and properties in AlzKB's knowledge
 graph. Since databases are distributed in a variety of formats and
@@ -41,7 +47,7 @@ files as well as relational (SQL) databases. All of the SQL databases
 parsed to build AlzKB are distributed for MySQL (as opposed to some
 other flavor of SQL).
 
-* Populating the ontology
+* 2.5: Populating the ontology
 Now that we have an ontology (currently 'unpopulated', consisting of a
 class hierarchy, object property types, data property types, and
 possibly annotations), we can populate it with records from the
@@ -152,7 +158,7 @@ script.
 
 ** Running =ista=
 
-* Converting the ontology into a Neo4j graph database
+* 3.: Converting the ontology into a Neo4j graph database
 
 ** Installing Neo4j
 ** Configuring an empty graph database for AlzKB
