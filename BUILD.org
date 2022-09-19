@@ -238,5 +238,39 @@ script.
 * 3.: Converting the ontology into a Neo4j graph database
 
 ** Installing Neo4j
+If you haven't done so already, download Neo4j from the [[https://neo4j.com/download-center/][Neo4j Download
+Center]]. Most users should select Neo4j Desktop, but advanced users can
+instead opt for Community Server (the instructions for which are well
+outside of the scope of this guide).
 ** Configuring an empty graph database for AlzKB
+You should now create a new graph database that will be populated with
+the contents of AlzKB. In Neo4j Community, this can be done as follows:
+- Create a new project by clicking the "New" button in the upper left,
+  then selecting "Create project".
+- In the project panel (on the right of the screen), you will see the
+  default name "Project" populates automatically. Hover over this
+  name and click the edit icon, then change the name to =AlzKB=.
+- To the right of the project name, click "Add", and select "Local
+  DBMS". Change the Name to =AlzKB DBMS=, specify a password that you will
+  remember, and use the Version dropdown to select "4.4.0" (if it is
+  not already selected). Click "Create". Wait for the operation to
+  finish.
+- Install plugins:
+  - Click the name of the DBMS ("AlzKB DBMS", if you have followed the
+    guide), and in the new panel to the right click the "Plugins" tab.
+  - Expand the "APOC" option, click "Install", and wait for the
+    operation to complete.
+  - Do the same for the "Graph Data Science Library" and "Neosemantics
+    (n10s)" plugins.
+- Before starting the DBMS, click the ellipsis immediately to the
+  right of the "Open" button, and then click "Settings...". Make the
+  following changes to the configuration file:
+  - Set =dbms.memory.heap.initial_size= to =2048m=.
+  - Set =dbms.memory.heap.max_size= to =4G=.
+  - Set =dbms.memory.pagecache.size= to =2048m=.
+  - Uncomment the line containing
+    =dbms.security.procedures.allowlist=apoc.coll.*,apoc.load.*,gds.*=
+    to activate it.
+  - Click the "Apply" button, then "Close".
+- Click "Start" to start the graph database.
 ** Importing the =ista= RDF output into Neo4j
