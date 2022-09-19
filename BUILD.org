@@ -11,7 +11,10 @@ is extensible to other applications of knowledge engineering. We use
 the same process for our other knowledge bases (such as [[https://comptox.ai][ComptoxAI]]), so
 this guide can also be used to teach you how to build your own.
 
-The following diagram 
+The following diagram gives an overview of the build process:
+
+#+CAPTION: Summary of how to build AlzKB
+[[./img/build-abstract.png]]
 
 * Creating the AlzKB Ontology
 _Important note_: Most users don't need to follow these steps, since
