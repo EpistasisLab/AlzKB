@@ -1,0 +1,156 @@
+#+TITLE: Building AlzKB (from scratch)
+#+AUTHOR: Joseph D. Romano
+#+EMAIL: joseph.romano@pennmedicine.upenn.edu
+#+LANGUAGE: en
+#+OPTIONS: toc:nil author
+
+* Overview
+This guide will teach you the complete process of building the
+Alzheimer's Knowledge Base (AlzKB). It's not a concise process, but it
+is extensible to other applications of knowledge engineering. We use
+the same process for our other knowledge bases (such as [[https://comptox.ai][ComptoxAI]]), so
+this guide can also be used to teach you how to build your own.
+
+The following diagram 
+
+* Creating the AlzKB Ontology
+_Important note_: Most users don't need to follow these steps, since
+it is already done! Unless you want to extend AlzKB or make major
+modifications to its node/edge types, you should skip to the [[Obtaining the third-party data sources][next
+section]]. If you DO want to do those things, then keep reading.
+
+AlzKB uses an OWL 2 ontology to act something like a 'template' for
+the nodes and relationships in the final knowledge graph. While the
+actual nodes and relationships are added automatically according to
+the 'rules' defined in the ontology, the ontology itself is
+constructed manually, using domain knowledge about AD. We do this
+using the Protégé ontology editor. If you don't already have it,
+download and install [[https://protege.stanford.edu/products.php][Protégé Desktop]] on your computer.
+
+
+
+* Obtaining the third-party data sources
+The next step is to collect the source data files that will eventually
+become the nodes, relationships, and properties in AlzKB's knowledge
+graph. Since databases are distributed in a variety of formats and
+modalities, you will have to work with a mix of plain-text "flat"
+files as well as relational (SQL) databases. All of the SQL databases
+parsed to build AlzKB are distributed for MySQL (as opposed to some
+other flavor of SQL).
+
+* Populating the ontology
+Now that we have an ontology (currently 'unpopulated', consisting of a
+class hierarchy, object property types, data property types, and
+possibly annotations), we can populate it with records from the
+third-party databases we collected in the previous step. Fortunately,
+this is a largely automated process, facilitated by a tool we call
+=ista= (/ista/ is the Sindarin word for /knowledge/). With =ista=, you
+write a Python script that first tells =ista= where to find the
+third-party data sources, and then maps each of those data sources to
+one or two node or edge types defined in the ontology (as classes or
+object properties, respectively). Here, we'll walk through the
+different parts of AlzKB's =ista= build script and discuss what each
+component does. If you are reading this guide to modify or extend
+AlzKB, you should be able to use the information in the following few
+sections to write your own build script.
+
+For reference, an up-to-date, complete copy of this build file can be
+found in the [[https://github.com/EpistasisLab/AlzKB][AlzKB source repository]] at the location
+=alzkb/populate_ontology.py=.
+
+** Build file top-matter
+At the top of the file, we do some imports of necessary Python
+packages. First comes =ista=. We don't import the whole package, just
+the classes and function that we actually interact with.
+#+begin_src python
+  from ista import FlatFileDatabaseParser, MySQLDatabaseParser
+  from ista.util import print_onto_stats
+#+end_src
+In order to interact with OWL 2 ontology files, we bring in the
+=owlready2= library.
+#+begin_src python
+  import owlready2
+#+end_src
+We put private data for our local MySQL databases (hostname, username,
+and password) in a file named =secrets.py=, and then make sure the
+file is added to our =.gitignore= file so it isn't checked into
+version control. You'll have to create that file yourself, and define
+the variables =MYSQL_HOSTNAME=, =MYSQL_USERNAME=, and
+=MYSQL_PASSWORD=. Then, in the build script, you'll import the file
+containing those variables and wrap them into a configuration dict.
+#+begin_src python
+  import secrets
+
+  mysql_config = {
+      'host': secrets.MYSQL_HOSTNAME,
+      'user': secrets.MYSQL_USERNAME,
+      'passwd': secrets.MYSQL_PASSWORD
+  }
+#+end_src
+** Telling =ista= where to find your data sources
+Since we are populating an ontology, we need to load the ontology into
+=owlready2=. Make sure to modify this path to fit the location of the
+AlzKB ontology file on your system! Future versions of AlzKB will
+source the path dynamically. Also note the =file://= prefix, which
+tells =owlready2= to look on the local file system rather than load a
+web URL. Since this guide was made on a Windows desktop, you'll notice
+that we have to use escaped backslashes to specify file paths that the
+Python interpreter will parse correctly.
+#+begin_src python
+  onto = owlready2.get_ontology("file://D:\\projects\\ista\\tests\\projects\\alzkb\\alzkb.rdf").load()
+#+end_src
+We also set the 'base' directory for all of the flat files that =ista=
+will be loading. You will have determined this location already (see
+[[Obtaining the third-party data sources]]).
+#+begin_src python
+  data_dir = "D:\\data\\"
+#+end_src
+Now, we can actually register the source databases with =ista='s
+parser classes. We use =FlatFileDatabaseParser= for data sources
+stored as one or more delimited flat files, and =MySQLDatabaseParser=
+for data sources in a MySQL database. For flat file-based sources, the
+first argument given to the parser's constructor MUST be the
+subdirectory (within =data_dir=) where that source's data files are
+contained, and for MySQL sources it MUST be the name of the MySQL
+database. If not, =ista= won't know where to find the files. The
+second argument is always the ontology object loaded using
+=owlready2=, and the third is either the base data directory or the
+MySQL config dictionary, both of which were defined above.
+#+begin_src python
+  epa = FlatFileDatabaseParser("epa", onto, data_dir)
+  ncbigene = FlatFileDatabaseParser("ncbigene", onto, data_dir)
+  drugbank = FlatFileDatabaseParser("drugbank", onto, data_dir)
+  hetionet = FlatFileDatabaseParser("hetionet", onto, data_dir)
+  aopdb = MySQLDatabaseParser("aopdb", onto, mysql_config)
+  aopwiki = FlatFileDatabaseParser("aopwiki", onto, data_dir)
+  tox21 = FlatFileDatabaseParser("tox21", onto, data_dir)
+  disgenet = FlatFileDatabaseParser("disgenet", onto, data_dir)
+#+end_src
+In the following two sections, we'll go over a few examples of how to
+define mappings using these parser objects. We won't replicate every
+mapping in this guide for brevity, but you can see all of them in the
+full AlzKB build script.
+*** Configuration for 'flat file' (e.g., CSV) data sources
+
+*** Configuration for SQL data sources
+
+** Mapping data sources to ontology components
+Every flat file or SQL table from a third-party data source can be
+mapped a single node or relationship type. For example, a file
+describing diseases can be mapped to the =Disease= node type, where
+each line in the file corresponds to a disease to be inserted (or
+'merged'---see below) into the knowledge graph. If the source is being
+mapped to a node type (rather than a relationship type), =ista=
+additionally can populate one or more /node properties/ from the
+feature columns in the source file.
+
+Each mapping is defined using a method call in the =ista= Python
+script. 
+
+** Running =ista=
+
+* Converting the ontology into a Neo4j graph database
+
+** Installing Neo4j
+** Configuring an empty graph database for AlzKB
+** Importing the =ista= RDF output into Neo4j
