@@ -49,7 +49,7 @@ other flavor of SQL).
 |-----------+----------------+-----------------------------------+---------------------------+--------------------|
 | Source    | Directory name | Entity type(s)                    | URL                       | Extra instructions |
 |-----------+----------------+-----------------------------------+---------------------------+--------------------|
-| Hetionet  | =hetionet=     | Many - see =populate-ontology.py= | [[https://github.com/hetio/hetionet/tree/master/hetnet/tsv][GitHib]]                    | [[Hetionet]]           |
+| Hetionet  | =hetionet=     | Many - see =populate-ontology.py= | [[https://github.com/hetio/hetionet/tree/master/hetnet/tsv][GitHub]]                    | [[Hetionet]]           |
 | NCBI Gene | =ncbigene=     | Genes                             | [[https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz][Homo_sapiens.gene_info.gz]] | [[NCBI Gene]]          |
 | Drugbank  | =drugbank=     | Drugs / drug candidates           | [[https://go.drugbank.com/releases/latest#open-data][DrugBank website]]          | [[Drugbank]]           |
 |           |                |                                   |                           |                    |
@@ -70,13 +70,59 @@ and extract it (e.g., using =gunzip=).
 
 Create a =CUSTOM= subdirectory inside the =ncbigene= directory. Inside
 of that subdirectory, place the following two files:
-- alzkb_parse_ncbigene.py
-- Homo_sapiens_expr_advanced_development.tsv (from the Bgee database)
+- [[https://github.com/EpistasisLab/AlzKB/blob/a9db2602e3e7960ec09749b99944fbf675323497/scripts/alzkb_parse_ncbigene.py][alzkb_parse_ncbigene.py]]
+- [[https://bgee.org/ftp/bgee_v15_0/download/calls/expr_calls/Homo_sapiens_expr_advanced.tsv.gz][Homo_sapiens_expr_advanced.tsv]] (from the Bgee database)
 Then, run =alzkb_parse_ncbigene.py= (no external Python packages
 should be needed). You'll notice that it creates two output files
-that are used to create ontology entities.
+that are used while populating the ontology.
 
 *** Drugbank
+Navigate to the Download page on the Drugbank website (linked
+above). Select the "External Links" tab. In the table titled "External
+Drug Links", click the "Download" button on the row labeled
+"All". This will download a zip file. Extract the contents of that zip
+file, and make sure it is named =drug_links.csv= (some versions use a
+space instead of an underscore in the filename).
+
+** SQL data sources
+If you don't already have MySQL installed, install it. We recommend
+using either a package manager (if one is available on your OS), or
+installing MySQL Community Server from the mysql.com website (e.g., by
+visiting https://dev.mysql.com/downloads/mysql/). Make sure it's
+running and you have the ability to create and modify new databases.
+
+*** AOP-DB 
+The Adverse Outcome Pathway Database (AOP-DB) is the only MySQL
+database you need to install to build the current version of AlzKB. It
+can be downloaded at: https://gaftp.epa.gov/EPADataCommons/ORD/AOP-DB/
+
+*WARNING:* This is a big download (7.2G while compressed)! Make sure
+you have enough disk space before proceeding.
+
+You'll have to extract two archives - first, unzip the =AOP-DB_v2.zip=
+archive, which should contain two *.tar.gz archives and another .zip
+archive. Now, extract the *.tar.gz archive containing =nogi= in its
+name (the smaller of the two). Windows doesn't natively support
+extracting .tar.gz archives, so you'll either have to download another
+program that does this (e.g., 7-zip) or extract it in a Unix-based
+environment (Linux, MacOS, Windows Subsystem for Linux, Cygwin, etc.)
+that has the =tar= program available on the command line. Once you've
+extracted it, you should have a file named something like
+=aopdb_no-orthoscores.sql=.
+
+Now, create an empty database in MySQL, and name it =aopdb=. Make sure
+you have full admin privileges on the database. Then, load the (newly
+extracted) =.sql= file into the empty database. I always find this
+easiest from the command line, by running a command such as:
+#+begin_src bash
+  $ mysql -u username -p database_name < aopdb_no-orthoscores.sql
+#+end_src
+Substitute your username after the =-u= option and enter your password
+when prompted. If you prefer to import it from a GUI, you can use a
+tool like MySQL Workbench or DataGrip.
+
+*WARNING:* It can take a while to import, so be ready to take a break
+or do something else while you wait.
 
 * 2.5: Populating the ontology
 Now that we have an ontology (currently 'unpopulated', consisting of a
