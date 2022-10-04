@@ -23,7 +23,7 @@ setuptools.setup(
     python_requires=">=3.7",
     include_package_data=True,
     install_requires=[
-        'ista @ git+https://github.com/JDRomano2/ista=ista'
+        'ista @ git+https://github.com/JDRomano2/ista@c036c1074e0b59df704a0aeb097862108b012b45'
     ],
     entry_points={
         'console_scripts': [
