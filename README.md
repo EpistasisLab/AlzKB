@@ -6,18 +6,18 @@ A knowledge base for AI research in Alzheimer Disease, based on graph databases.
 
 AlzKB is designed and developed by the following authors (in alphabetical order):
 
-- Britney Graham (Cedars-Sinai)
-- Yun Hao (UPenn)
+- Britney Graham, PhD (Cedars-Sinai)
+- Yun Hao, MS (UPenn)
 - Rachit Kumar (UPenn)
-- Xi Li (Cedars-Sinai)
+- Xi Li, MD (Cedars-Sinai)
 - Nick Matsumoto (Cedars-Sinai)
 - Jason H. Moore, PhD, FACMI (Cedars-Sinai)
 - Marylyn Ritchie, PhD (UPenn)
 - Joseph D. Romano, PhD (UPenn)
-- Li Shen, PhD (UPenn)
-- Van Truong (UPenn)
-- Mythreye Venkatesan (Cedars-Sinai)
-- Paul Wang (Cedars-Sinai)
+- Li Shen, PhD, FAIMBE (UPenn)
+- Van Truong, MS (UPenn)
+- Mythreye Venkatesan, MS (Cedars-Sinai)
+- Paul Wang, PhD (Cedars-Sinai)
 
 
 ## Prerequisites
