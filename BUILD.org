@@ -103,10 +103,10 @@ from within Windows, etc.).
 
 Now that you have the two data files, you should run the AlzKB script
 we wrote to filter for rows in those files corresponding to
-Alzheimer's Disease. This script is in the =scripts/= directory of the
-AlzKB repository, so either find it on your local filesystem if you
-already have a copy of the repository, or find it on the AlzKB page of
-GitHub.
+Alzheimer's Disease, named =alzkb_parse_disgenet.py=. This script is
+in the =scripts/= directory of the AlzKB repository, so either find it
+on your local filesystem if you already have a copy of the repository,
+or find it on the AlzKB GitHub repository in your web browser.
 
 You can then run the Python script from within the =disgenet/=
 directory, which should deposit two filtered data files in the
