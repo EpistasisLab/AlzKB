@@ -52,6 +52,7 @@ other flavor of SQL).
 | Hetionet  | =hetionet=     | Many - see =populate-ontology.py= | [[https://github.com/hetio/hetionet/tree/master/hetnet/tsv][GitHub]]                    | [[Hetionet]]           |
 | NCBI Gene | =ncbigene=     | Genes                             | [[https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz][Homo_sapiens.gene_info.gz]] | [[NCBI Gene]]          |
 | Drugbank  | =drugbank=     | Drugs / drug candidates           | [[https://go.drugbank.com/releases/latest#open-data][DrugBank website]]          | [[Drugbank]]           |
+| DisGeNET  | =disgenet=     | Diseases and disease-gene edges   | [[https://www.disgenet.org/][DisGeNET]]                  | [[DisGeNET]]           |
 |           |                |                                   |                           |                    |
 
 *** Hetionet
@@ -83,6 +84,34 @@ Drug Links", click the "Download" button on the row labeled
 "All". This will download a zip file. Extract the contents of that zip
 file, and make sure it is named =drug_links.csv= (some versions use a
 space instead of an underscore in the filename).
+
+*** DisGeNET
+Although DisGeNET is available under a Creative Commons license, the
+database requires users to create a free account to download the
+tab-delimited data files. Therefore, you should create a user account
+and log in. Then, navigate to the Downloads page on the DisGeNET
+website. Now, download the two necessary files by clicking on the
+corresponding links:
+- "UMLS CUI to several disease vocabularies" (under the "UMLS CUI to
+  several disease vocabularies" section heading - the resulting file
+  name will be =disease_mappings.tsv.gz=)
+- "UMLS CUI to top disease classes" (the resulting file will be named
+  =disease_mappings_to_attributes.tar.gz=)
+Both files are gzipped, so extract them into the =disgenet/= directory
+using your favorite method (e.g., gunzip from the command line, 7zip
+from within Windows, etc.).
+
+Now that you have the two data files, you should run the AlzKB script
+we wrote to filter for rows in those files corresponding to
+Alzheimer's Disease. This script is in the =scripts/= directory of the
+AlzKB repository, so either find it on your local filesystem if you
+already have a copy of the repository, or find it on the AlzKB page of
+GitHub.
+
+You can then run the Python script from within the =disgenet/=
+directory, which should deposit two filtered data files in the
+=disgenet/CUSTOM/= subdirectory. These will be automatically detected
+and used when you run the ontology population script.
 
 ** SQL data sources
 If you don't already have MySQL installed, install it. We recommend
