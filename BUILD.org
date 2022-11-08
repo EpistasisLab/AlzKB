@@ -97,21 +97,27 @@ corresponding links:
   name will be =disease_mappings.tsv.gz=)
 - "UMLS CUI to top disease classes" (the resulting file will be named
   =disease_mappings_to_attributes.tar.gz=)
-Both files are gzipped, so extract them into the =disgenet/= directory
-using your favorite method (e.g., gunzip from the command line, 7zip
-from within Windows, etc.).
+Next, download =curated_disease_gene_associations.tsv.gz= directly by
+copying the following URL into your web browser:
+https://www.disgenet.org/static/disgenet_ap1/files/downloads/curated_disease_gene_associations.tsv.gz
 
-Now that you have the two data files, you should run the AlzKB script
-we wrote to filter for rows in those files corresponding to
-Alzheimer's Disease, named =alzkb_parse_disgenet.py=. This script is
-in the =scripts/= directory of the AlzKB repository, so either find it
-on your local filesystem if you already have a copy of the repository,
-or find it on the AlzKB GitHub repository in your web browser.
+All three files are gzipped, so extract them into the =disgenet/=
+directory using your favorite method (e.g., gunzip from the command
+line, 7zip from within Windows, etc.).
+
+Now that you have the three necessary data files, you should run the
+AlzKB script we wrote to filter for rows in those files corresponding
+to Alzheimer's Disease, named =alzkb_parse_disgenet.py=. This script
+is in the =scripts/= directory of the AlzKB repository, so either find
+it on your local filesystem if you already have a copy of the
+repository, or find it on the AlzKB GitHub repository in your web
+browser.
 
 You can then run the Python script from within the =disgenet/=
 directory, which should deposit two filtered data files in the
 =disgenet/CUSTOM/= subdirectory. These will be automatically detected
-and used when you run the ontology population script.
+and used when you run the ontology population script, along with the
+unmodified =curated_disease_gene_associations.tsv= file.
 
 ** SQL data sources
 If you don't already have MySQL installed, install it. We recommend
