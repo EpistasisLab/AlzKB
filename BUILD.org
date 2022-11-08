@@ -99,7 +99,7 @@ corresponding links:
   =disease_mappings_to_attributes.tar.gz=)
 Next, download =curated_disease_gene_associations.tsv.gz= directly by
 copying the following URL into your web browser:
-https://www.disgenet.org/static/disgenet_ap1/files/downloads/curated_disease_gene_associations.tsv.gz
+https://www.disgenet.org/static/disgenet_ap1/files/downloads/curated_gene_disease_associations.tsv.gz
 
 All three files are gzipped, so extract them into the =disgenet/=
 directory using your favorite method (e.g., gunzip from the command
