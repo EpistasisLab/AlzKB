@@ -1,0 +1,91 @@
+
+<style type="text/css" media="screen">
+  /*
+  .nodes-image {
+      margin:-100;
+  }
+  */	
+  @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+  
+  .imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+  .deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+  .listingblock {margin:8px;}
+  .pull-bottom {position:relative;bottom:1em;}
+  .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+  .admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+  .admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+  .admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+  .admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+  .admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+  .admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+  /* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <slide class="row-fluid">
+      <div class="col-sm-12">
+        <h3>Sample Queries</h3>
+        <br/>
+        <div>
+          <h4>Alzheimer's Disease</h4>
+          <div class="paragraph">
+            <p>Play this query to see all genes related to Alzheimer's Disease</p>
+          </div>
+          <div class="col-lg-12 ng-scope">
+            <div class="listingblock">
+              <div class="content">
+  <pre mode="cypher" class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher">MATCH (a:Gene)-[]-(b{commonName:"Alzheimer's Disease"})
+RETURN a, b;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </slide>
+    <slide class="row-fluid">
+      <div class="col-sm-12">
+        <h3>Sample Queries</h3>
+        <br/>
+        <div>
+          <h4>Early and late onset</h4>
+          <div class="paragraph">
+            <p>Play this query to see genes shared by early and late onset Alzheimer's Disease</p>
+          </div>
+          <div class="col-lg-12 ng-scope">
+            <div class="listingblock">
+              <div class="content">
+  <pre mode="cypher" class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher">MATCH (a{commonName:"Alzheimer Disease, Late Onset"})--(b:Gene)--(c{commonName:"Alzheimer Disease, Early Onset"})
+RETURN a,b,c;</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </slide>
+    <slide class="row-fluid">
+      <div class="col-sm-12">
+        <h3>Sample Queries</h3>
+        <br/>
+        <div>
+          <h4>Genetic Evidence</h4>
+          <div class="paragraph">
+            <p>Play this query to see drugs connected to the genes with genetic evidence compiled by Alzheimer's Disease Sequencing Project Gene Verification Committee</p>
+          </div>
+          <div class="col-lg-12 ng-scope">
+            <div class="listingblock">
+              <div class="content">
+  <pre mode="cypher" class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" 
+      data-lang="cypher" lang="cypher">MATCH (a)-[]-(b:Drug)
+WHERE a.geneSymbol IN ["ABCA1","ABCA7","ABI3","ACE","ADAM17","ADAMTS1","ANK3","ANKH","APH1B","APP","BCKDK","BIN1","BLNK","CASS4","CD2AP","CLNK","CLU","COX7C","CR1","CTSB","CTSH","DOC2A","EED","EPDR1","EPHA1","FERMT2","FOXF1","GRN","HLA-DQA1","HS3ST5","ICA1","IDUA","IL34","INPP5D","JAZF1","KLF16","LILRB2","MAF","MINDY2","MME","MS4A4A","MYO15A","NCK2","PLCG2","PLEKHA1","PRDM7","PRKD3","PTK2B","RASGEF1C","RBCK1"]
+RETURN a, b;
+  </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </slide>
+  </carousel>
+</article>
