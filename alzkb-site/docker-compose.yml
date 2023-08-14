@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    extends:
+      file: app.yml
+      service: app
+  # neo4j-admin:
+  #   extends:
+  #     file: neo4j-admin.yml
+  #     service: neo4j-admin
+  neo4j:
+    extends:
+      file: neo4j.yml
+      service: neo4j
+    # depends_on:
+    #   - neo4j-admin
+  nginx:
+    extends:
+      file: nginx.yml
+      service: nginx
+    depends_on:
+      - app
+      - neo4j

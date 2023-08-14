@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: 'neo4j:5.7.0-community'
+    env_file: .env
+    volumes:
+      - '${ALZKB_DATA_ROOT}/neo4j/data:/var/lib/neo4j/data'
+      - '${ALZKB_DATA_ROOT}/neo4j/logs:/var/lib/neo4j/logs'
+      - '${ALZKB_DATA_ROOT}/neo4j/import:/var/lib/neo4j/import'
+      - '${ALZKB_DATA_ROOT}/neo4j/plugins:/var/lib/neo4j/plugins'
+      - '${ALZKB_DATA_ROOT}/neo4j/ssl:/var/lib/neo4j/certificates'
+    ports:
+      - 7474:7474
+      - 7687:7687
+      - 7473:7473
+    restart: on-failure

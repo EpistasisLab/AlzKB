@@ -1,0 +1,7 @@
+Updaing to v5 also requires updates to the neo4j-admin load command.
+    I will not be updating to v5, will update to the latest compatible v4 instead, currently v4.4.17
+Updating to v5.5-community requires that the following plugins also be updated:
+    GDS 2.3.1 or later:
+        https://neo4j.com/docs/graph-data-science/current/installation/supported-neo4j-versions/
+    APOC 5.5.0 // this one has the same version as the version of the server:
+        https://neo4j.com/docs/apoc/current/installation/

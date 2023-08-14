@@ -1,0 +1,75 @@
+
+<style type="text/css" media="screen">
+  /*
+  .nodes-image {
+      margin:-100;
+  }
+  */	
+  @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+  
+  .imageblock .content img, .image img {max-width: 900px;max-height: 300px;}
+  .deck h3, .deck h4 {display: block !important;margin-bottom:8px;margin-top:5px;}
+  .listingblock {margin:8px;}
+  .pull-bottom {position:relative;bottom:1em;}
+  .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+  .admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+  .admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+  .admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+  .admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+  .admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+  .admonitionblock.note.speaker { display:none; }
+</style>
+<style type="text/css" media="screen">
+  /* #editor.maximize-editor .CodeMirror-code { font-size:24px; line-height:26px; } */
+</style>
+<article class="guide" ng-controller="AdLibDataController">
+  <carousel class="deck container-fluid">
+    <slide class="row-fluid">
+      <div class="col-sm-5">
+        <h3>AlzKB</h3>
+        <br/>
+        <div>
+        <p class="lead">
+          AlzKB is a knowledge base describing the etiology of Alzheimer's
+          Disease with a particular focus on discovering new drug therapies. The
+          knowledge base is implemented as a <b>graph database</b> (using Neo4j),
+          which offers many distinct advantages over traditional relational
+          databases and non-graph formatted representations of biomedical knowledge.
+        </p>
+        <p>
+          The knowledge in AlzKB is sourced from a large set of diverse,
+          publicly available biomedical databases. Currently, AlzKB includes
+          data from the following sources:
+        </p>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <ul>
+          <li>AOP-DB (Adverse Outcome Pathway Database)</li>
+          <li>Bgee<sup>*</sup></li>
+          <li>Disease Ontology<sup>*</sup></li>
+          <li>DisGeNET</li>
+          <li>Drugbank</li>
+          <li>EPA Computational Toxicology databases (DSSTox/AcTOR)</li>
+          <li>Gene Ontology<sup>*</sup></li>
+          <li>GWAS Catalog<sup>*</sup></li>
+          <li>Hetionet</li>
+          <li>Human Reference Protein Interactome Mapping Project<sup>*</sup></li>
+          <li>LINCS L1000<sup>*</sup></li>
+          <li>MeSH (NCBI Medical Subject Headings)<sup>*</sup></li>
+          <li>NCBI Gene (Entrez Gene)</li>
+          <li>Pathway Interaction Database<sup>*</sup></li>
+          <li>PharmacotherapyDB<sup>*</sup></li>
+          <li>PubChem</li>
+          <li>Reactome<sup>*</sup></li>
+          <li>SIDER<sup>*</sup></li>
+          <li>TISSUES<sup>*</sup></li>
+          <li>Uberon<sup>*</sup></li>
+          <li>WikiPathways<sup>*</sup></li>
+        </ul>
+        
+        <sup>*</sup>included via Hetionet
+      </div>
+    </slide>
+  </carousel>
+</article>

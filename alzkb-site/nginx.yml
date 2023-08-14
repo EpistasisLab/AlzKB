@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: 'nginx:1.23.3'
+    env_file: .env
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      # - '../aliro-site/www/html:/var/www/html'
+      - './nginx:/etc/nginx/conf.d'
+      - '${ALZKB_DATA_ROOT}/nginx/logs:/var/log/nginx'
+    #replace ONLY env variables found in the template 
+    command: >
+      /bin/bash -c "
+      if [ \"$NODE_ENV\" = \"prod\" ]; then
+        cp /etc/nginx/conf.d/*.crt /etc/ssl/certs/ 
+        cp /etc/nginx/conf.d/*.key /etc/ssl/private/ 
+      fi
+      && envsubst \"$$(printf '$${%s} ' $$(env | cut -d'=' -f1))\" < /etc/nginx/conf.d/alzkb.template.$(echo $NODE_ENV) > /etc/nginx/conf.d/default.conf 
+      && nginx -g 'daemon off;'"
+
