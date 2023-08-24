@@ -78,8 +78,10 @@ should be needed). You'll notice that it creates two output files
 that are used while populating the ontology.
 
 *** Drugbank
-Navigate to the Download page on the Drugbank website (linked
-above). Select the "External Links" tab. In the table titled "External
+In order to download the Academic DrugBank datasets, you need to first create a free DrugBank account and verify your email address. After verifying your email address, they may need some more information regarding your DrugBank account, like the description of how you plan to use DrugBank, a description of your organization, Who is sponsoring this research, and What is the end goal of this research. Account approval can take up to several business days to weeks based on our experience. 
+
+After your access has been approved, navigate to the Academic Download page on the Drugbank website (linked
+above) by selecting the "Download" tab and "Academic Download". Select the "External Links" tab. In the table titled "External
 Drug Links", click the "Download" button on the row labeled
 "All". This will download a zip file. Extract the contents of that zip
 file, and make sure it is named =drug_links.csv= (some versions use a
@@ -118,6 +120,8 @@ directory, which should deposit two filtered data files in the
 =disgenet/CUSTOM/= subdirectory. These will be automatically detected
 and used when you run the ontology population script, along with the
 unmodified =curated_disease_gene_associations.tsv= file.
+
+Then you create a directory that will hold all of the raw data files. It can be 'D:\data\' or something else you prefer. Within that, there will be 1 folder for each third-party database, and in those folders, you'll put the individual csv/tsv/txt files.
 
 ** SQL data sources
 If you don't already have MySQL installed, install it. We recommend
@@ -252,8 +256,71 @@ define mappings using these parser objects. We won't replicate every
 mapping in this guide for brevity, but you can see all of them in the
 full AlzKB build script.
 *** Configuration for 'flat file' (e.g., CSV) data sources
+#+begin_src python
+hetionet.parse_node_type(
+    node_type="Symptom",
+    source_filename="hetionet-v1.0-nodes.tsv",
+    fmt="tsv",
+    parse_config={
+        "iri_column_name": "name",
+        "headers": True,
+        "filter_column": "kind",
+        "filter_value": "Symptom",
+        "data_transforms": {
+            "id": lambda x: x.split("::")[-1]
+        },
+        "data_property_map": {
+            "id": onto.xrefMeSH,
+            "name": onto.commonName
+        }
+    },
+    merge=False,
+    skip=False
+)
+#+end_src
+This block indicates the third-party database is hetionet, and the file is hetionet-v1.0-nodes.tsv
 
-*** Configuration for SQL data sources
+So the file it will look for is D:\data\hetionet\hetionet-v1.0-nodes.tsv
+
+Some of the configuration blocks will have a CUSTOM\ prefix to the filename. This means that the file was created by us manually and will need to be stored in a CUSTOM subdirectory of the database folder. For example:
+#+begin_src python
+disgenet.parse_node_type(
+    node_type="Disease",
+    source_filename="CUSTOM/disease_mappings_to_attributes_alzheimer.tsv",  # Filtered for just Alzheimer disease
+    fmt="tsv-pandas",
+    parse_config={
+        "iri_column_name": "diseaseId",
+        "headers": True,
+        "data_property_map": {
+            "diseaseId": onto.xrefUmlsCUI,
+            "name": onto.commonName,
+        }
+    },
+    merge=False,
+    skip=False
+)
+#+end_src
+This file will be D:\data\disgenet\CUSTOM\disease_mappings_alzheimer.tsv
+
+*** Configuration for SQL server data sources
+#+begin_src python
+aopdb.parse_node_type(
+    node_type="Drug",
+    source_table="chemical_info",
+    parse_config={
+        "iri_column_name": "DTX_id",
+        "data_property_map": {"ChemicalID": onto.xrefMeSH},
+        "merge_column": {
+            "source_column_name": "DTX_id",
+            "data_property": onto.xrefDTXSID
+        }
+    },
+    merge=True,
+    skip=False
+)
+#+end_src
+This block indicates the third-party database is AOP-DB, and the source table is chemical_info.
+
 
 ** Mapping data sources to ontology components
 Every flat file or SQL table from a third-party data source can be
@@ -269,6 +336,9 @@ Each mapping is defined using a method call in the =ista= Python
 script. 
 
 ** Running =ista=
+Now you have set the location of data resources, ontology, and defined mapping method. Run populate_ontology.py 
+
+The alzkb-populated.rdf is the output of this step and will be used for setting Neo4j Graph database.
 
 * 3.: Converting the ontology into a Neo4j graph database
 
@@ -306,6 +376,58 @@ the contents of AlzKB. In Neo4j Community, this can be done as follows:
   - Uncomment the line containing
     =dbms.security.procedures.allowlist=apoc.coll.*,apoc.load.*,gds.*=
     to activate it.
+  - Add =n10s.*,apoc.cypher.*,apoc.help=  to =dbms.security.procedures.allowlist=apoc.coll.*,apoc.load.*,gds.*=
   - Click the "Apply" button, then "Close".
 - Click "Start" to start the graph database.
 ** Importing the =ista= RDF output into Neo4j
+- Open neo4j Browser and run the following Cypher to import RDF data
+#+begin_src cypher
+   # Cleaning nodes
+   MATCH (n) DETACH DELETE n
+#+end_src
+
+#+begin_src cypher
+   # Constraint Creation
+   CREATE CONSTRAINT n10s_unique_uri FOR (r:Resource) REQUIRE r.uri IS UNIQUE
+#+end_src
+
+#+begin_src cypher
+   # Creating a Graph Configuration
+   CALL n10s.graphconfig.init()
+   CALL n10s.graphconfig.set({applyNeo4jNaming: true, handleVocabUris: 'IGNORE'})
+#+end_src
+
+#+begin_src cypher
+   # Importing RDF
+   CALL n10s.rdf.import.fetch( "file://D:\\data\\alzkb-populated.rdf", "RDF/XML")
+#+end_src
+
+- Run the Cyphers below to clean nodes
+#+begin_src cypher
+   MATCH (n:Resource) REMOVE n:Resource;
+   MATCH (n:NamedIndividual) REMOVE n:NamedIndividual;
+   MATCH (n:AllDisjointClasses) REMOVE n:AllDisjointClasses;
+   MATCH (n:AllDisjointProperties) REMOVE n:AllDisjointProperties;
+   MATCH (n:DatatypeProperty) REMOVE n:DatatypeProperty;
+   MATCH (n:FunctionalProperty) REMOVE n:FunctionalProperty;
+   MATCH (n:ObjectProperty) REMOVE n:ObjectProperty;
+   MATCH (n:AnnotationProperty) REMOVE n:AnnotationProperty;
+   MATCH (n:SymmetricProperty) REMOVE n:SymmetricProperty;
+   MATCH (n:_GraphConfig) REMOVE n:_GraphConfig;
+   MATCH (n:Ontology) REMOVE n:Ontology;
+   MATCH (n:Restriction) REMOVE n:Restriction;
+   MATCH (n:Class) REMOVE n:Class;
+   MATCH (n) WHERE size(labels(n)) = 0 DETACH DELETE n; # Removes nodes without labels
+#+end_src
+
+Now, you have built the AlzKB from scratch. You can find the number of nodes and relationships with
+#+begin_src cypher
+CALL db.labels() YIELD label
+CALL apoc.cypher.run('MATCH (:`'+label+'`) RETURN count(*) as count',{}) YIELD value
+RETURN label, value.count ORDER BY label
+#+end_src
+#+begin_src cypher
+CALL db.relationshipTypes() YIELD relationshipType as type
+CALL apoc.cypher.run('MATCH ()-[:`'+type+'`]->() RETURN count(*) as count',{}) YIELD value
+RETURN type, value.count ORDER BY type
+#+end_src
