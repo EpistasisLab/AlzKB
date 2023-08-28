@@ -183,6 +183,13 @@ For reference, an up-to-date, complete copy of this build file can be
 found in the [[https://github.com/EpistasisLab/AlzKB][AlzKB source repository]] at the location
 =alzkb/populate_ontology.py=.
 
+** Installing ista
+- Keep MySQL Server running
+- Install mysqlclient via Anaconda-Navigator
+- Clone the ista repository onto your computer (=git clone https://github.com/RomanoLab/ista=)
+- =cd ista=
+- =pip install .=
+
 ** Build file top-matter
 At the top of the file, we do some imports of necessary Python
 packages. First comes =ista=. We don't import the whole package, just
