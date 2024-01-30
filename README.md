@@ -69,6 +69,8 @@ To build a copy of AlzKB's graph database, you can either:
 
 ### Build from scratch (less easy)
 
+**For detailed instructions on building AlzKB from scratch, see [here](https://github.com/EpistasisLab/AlzKB/blob/master/BUILD.org)**
+
 Start by installing the Python package, which includes the necessary scripts:
 
 ```{bash}
