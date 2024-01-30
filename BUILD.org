@@ -33,7 +33,7 @@ actual nodes and relationships are added automatically according to
 the 'rules' defined in the ontology, the ontology itself is
 constructed manually, using domain knowledge about AD. We do this
 using the Protégé ontology editor. If you don't already have it,
-download and install [[https://protege.stanford.edu/products.php][Protégé Desktop]] on your computer.
+download and install [[https://protege.stanford.edu/software.php][Protégé Desktop]] on your computer.
 
 * 2.: Obtaining the third-party data sources
 The next step is to collect the source data files that will eventually
