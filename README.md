@@ -12,6 +12,7 @@ AlzKB is designed and developed by the following authors (in alphabetical order)
 - Xi Li, MD (Cedars-Sinai)
 - Nick Matsumoto (Cedars-Sinai)
 - Jason H. Moore, PhD, FACMI (Cedars-Sinai)
+- Jay Moran, MS (Cedars-Sinai)
 - Marylyn Ritchie, PhD (UPenn)
 - Joseph D. Romano, PhD (UPenn)
 - Li Shen, PhD, FAIMBE (UPenn)
@@ -20,38 +21,28 @@ AlzKB is designed and developed by the following authors (in alphabetical order)
 - Paul Wang, PhD (Cedars-Sinai)
 
 
-## Prerequisites
+## Deprication Note
+Versions of AlzKB prior to v1.3.0 used Neo4j. Use of Neo4j is now depricated. Legacy versions of the knowledge graph will continue to be provided in the Releases page to support existing research.  
 
+## Prerequisites
+- Memgraph Lab (Desktop application)
+    - Starting with AlzKB v1.3.0, Memgraph is used as the knowledge graph server.
+    - Memgraph offers a variety of [installation options](https://memgraph.com/docs/getting-started/install-memgraph).
+    - Memgraph Lab is the easiest way to get up and running with AlzKB. But you may use Memgraph Server if your deployment requires it.
 - Python (version 3.7 or later)
-- Instance of Neo4j with `n10s` (v4.2 or greater) plugin installed
 
 ## Installation
 
 To build a copy of AlzKB's graph database, you can either:
+- Download a copy of the latest CYPHERL file and import it into Memgraph
+- Build the knowledge base from its original third-party sources and import it into Memgraph
 
-- Download a dump of the Neo4j database and import it into Neo4j
+### Install from CYPHERL file (easy)
+- Visit the [Releases page](https://github.com/EpistasisLab/AlzKB/releases) and find the version of AlzKB you want to install. Unless you have a particular reason to do otherwise, this should probably be the most recent release. Follow the link in the release notes to the corresponding database dump (it will redirect to an external page).
+- Using Memgraph Lab, import the downloaded CYPHERL file by navigating to _Import & Export_ and then click the _Import Data_ button.
 
-- Build the knowledge base from its original third-party sources and populate
-  an empty Neo4j graph database
 
-### Install from database dump (easy)
 
-- Before doing anything else, make sure you have an up-to-date version of Neo4j
-  installed on the new database server. This can be Neo4j Desktop or Neo4j
-  Server, depending on your intended use.
-
-- Visit the [Releases page](https://github.com/EpistasisLab/AlzKB/releases) and
-  find the version of AlzKB you want to install. Unless you have a particular
-  reason to do otherwise, this should probably be the most recent release.
-  Follow the link in the release notes to the corresponding database dump (it
-  will redirect to an external page).
-
-- Once you have downloaded the dump, extract the archive. 
-
-- If you haven't already done so, create an empty database in Neo4j.
-
-- Stop any running Neo4j database instances (you can only import the dump when
-  the destination database is shut down).
 
 - Use the `neo4j-admin` utility (included with Neo4j) to import the database
   from the dump. You may need to add the program to your `PATH` variable or
