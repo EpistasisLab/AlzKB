@@ -40,23 +40,8 @@ To build a copy of AlzKB's graph database, you can either:
 ### Install from CYPHERL file (easy)
 - Visit the [Releases page](https://github.com/EpistasisLab/AlzKB/releases) and find the version of AlzKB you want to install. Unless you have a particular reason to do otherwise, this should probably be the most recent release. Follow the link in the release notes to the corresponding database dump (it will redirect to an external page).
 - Using Memgraph Lab, import the downloaded CYPHERL file by navigating to _Import & Export_ and then click the _Import Data_ button.
-
-
-
-
-- Use the `neo4j-admin` utility (included with Neo4j) to import the database
-  from the dump. You may need to add the program to your `PATH` variable or
-  similar; if using Neo4j Desktop you can open a terminal window from within the
-  application and use `cd bin` to access the directory where the `neo4j-admin`
-  program is located. **(If you are installing on Neo4j Server the following
-  command needs to be run by the appropriate user; this is often `neo4j`)**
-  Assuming that `neo4j-admin` is accessible in your current directory, an
-  example import command for UNIX-based operating systems could look like this
-  (substitute database name and dump location as needed):
-
-  `$ neo4j-admin load --verbose --force --database=neo4j --from=~/Downloads/alzkb.dump`
-
-- Start the Neo4j database and open it to verify everything looks good.
+    - For other ways to import the CYPHERL file into a Memgraph server, see [here](https://memgraph.com/docs/data-migration/cypherl)
+- In Memgraph Lab, navigate to _Query execution_ to start querying the knowledge graph.
 
 ### Build from scratch (less easy)
 
