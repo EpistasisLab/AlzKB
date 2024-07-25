@@ -49,10 +49,10 @@ other flavor of SQL).
 |-----------+----------------+-----------------------------------+---------------------------+--------------------|
 | Source    | Directory name | Entity type(s)                    | URL                       | Extra instructions |
 |-----------+----------------+-----------------------------------+---------------------------+--------------------|
-| Hetionet  | =hetionet=     | Many - see =populate-ontology.py= | [[https://github.com/hetio/hetionet/tree/master/hetnet/tsv][GitHub]]                    | [[Hetionet]]           |
-| NCBI Gene | =ncbigene=     | Genes                             | [[https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz][Homo_sapiens.gene_info.gz]] | [[NCBI Gene]]          |
-| Drugbank  | =drugbank=     | Drugs / drug candidates           | [[https://go.drugbank.com/releases/latest#open-data][DrugBank website]]          | [[Drugbank]]           |
-| DisGeNET  | =disgenet=     | Diseases and disease-gene edges   | [[https://www.disgenet.org/][DisGeNET]]                  | [[DisGeNET]]           |
+| Hetionet  | =hetionet=     | Many - see =populate-ontology.py= | [[https://github.com/hetio/hetionet/tree/master/hetnet/tsv][GitHub]]                    | [[https://het.io][Hetionet]]           |
+| NCBI Gene | =ncbigene=     | Genes                             | [[https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz][Homo_sapiens.gene_info.gz]] | [[https://www.ncbi.nlm.nih.gov/gene/][NCBI Gene]]          |
+| Drugbank  | =drugbank=     | Drugs / drug candidates           | [[https://go.drugbank.com/releases/latest#open-data][DrugBank website]]          | [[https://go.drugbank.com][Drugbank]]           |
+| DisGeNET  | =disgenet=     | Diseases and disease-gene edges   | [[https://www.disgenet.org/][DisGeNET]]                  | [[https://disgenet.com][DisGeNET]]           |
 |           |                |                                   |                           |                    |
 
 *** Hetionet
@@ -437,4 +437,368 @@ RETURN label, value.count ORDER BY label
 CALL db.relationshipTypes() YIELD relationshipType as type
 CALL apoc.cypher.run('MATCH ()-[:`'+type+'`]->() RETURN count(*) as count',{}) YIELD value
 RETURN type, value.count ORDER BY type
+#+end_src
+
+* 4.: Adding new data resources, nodes, relationships, and properties.
+
+In version 2.0, we added "TranscriptionFactor" nodes, "TRANSCRIPTIONFACTORINTERACTSWITHGENE" relationships, node properties of "chromosome" number and "sourcedatabase", relationships properties of "correlation", "score", "p_fisher", "z_score", "affinity_nm", "confidence", "sourcedatabase", and "unbiased". 
+
+To achieve this, we added the above entities to the ontology RDF and now named =alzkb_v2.rdf= in the =alzkb\data= directory. Then collect additional source data files as detailed in the table below.
+| Source    | Directory name | Entity type(s)                              | URL                   | Extra instructions |
+|-----------|----------------|---------------------------------------------|-----------------------|--------------------|
+| TRRUST    | =dorothea=     | Transcription factors(TF) and TF-gene edges | [[https://www.grnpedia.org/trrust/downloadnetwork.php][TRRUST Download]]        | [[https://www.grnpedia.org/trrust/][TRRUST]]             |
+| DoRothEA  | =dorothea=     | Transcription factors(TF) and TF-gene edges | [[https://saezlab.github.io/dorothea/][DoRothEA Installation]] | [[https://bioconductor.org/packages/release/data/experiment/vignettes/dorothea/inst/doc/dorothea.R][DoRothEA RScript]]   |
+
+** Prepare Source Data
+Download =trrust_rawdata.human.tsv= from TRRUST Download. Install DoRothEA by following the DoRothEA Installation within R. Place the =trrust_rawdata.human.tsv= and =alzkb_parse_dorothea.py= inside of =Dorothea/= subdirectory, which should be within your raw data directory (e.g., =D:\data=). Run =alzkb_parse_dorothea.py=. You’ll notice that it creates a =tf.tsv= file that is used while populating the ontology.
+
+** Replicate Hetionet Resources
+Since Hetionet does not have an up-to-date update plan, we have replicated them using the rephetio paper and source code to ensure AlzKB has current data. Follow the steps in [[https://github.com/EpistasisLab/AlzKB-updates][AlzKB-updates]] Github repository to create =hetionet-custom-nodes.tsv= and =hetionet-custom-edges.tsv=. Place these files in the =hetionet/= subdirectory.
+
+** Process Data Files
+Place the updated =alzkb_parse_ncbigene.py=, =alzkb_parse_drugbank.py=, and =alzkb_parse_disgenet.py= from the =scripts/= directory in their respective raw data file subdirectory. Run each script to process the data for the next step.
+
+** Populate Ontology
+Now that we have the updated ontology and updated data files, run the updated =alzkb/populate_ontology.py= to populate records. It creates a =alzkb_v2-populated.rdf= file that will be used in next step.
+
+* 5.: Converting the ontology into a Memgraph graph database
+** Installing Memgraph
+If you haven't done so already, download Memgraph from the [[https://memgraph.com/docs/getting-started/install-memgraph][Install Memgraph]] page. Most users install Memgraph using a =pre-prepared docker-compose.yml= file by executing: 
+- for Linux and macOS:
+   =curl https://install.memgraph.com | sh=
+- for Windows:
+   =iwr https://windows.memgraph.com | iex=
+
+More details are in [[https://memgraph.com/docs/getting-started/install-memgraph/docker][Install Memgraph with Docker]]
+
+** Generating the CSV File
+Before uploading the file to Memgrpah, run =alzkb/rdf_to_memgraph_csv.py= with the =alzkb_v2-populated.rdf= file to generate =alzkb-populated.csv=.
+
+** Starting Memgraph with Docker
+Follow the instructions in [[https://memgraph.com/docs/data-migration/migrate-from-neo4j#importing-data-into-memgraph][importing-data-into-memgraph]] Step 1. Starting Memgraph with Docker to upload the =alzkb-populated.csv= file to the container.
+
+Open Memgraph Lab. Memgraph Lab is available at =http://localhost:3000=. Click the =Query Execution= in MENU on the left bar. Then, you can type a Cypher query in the =Cypher Editor=.
+
+** Gaining speed with indexes and analytical storage mode
+- To create indexes, run the following Cypher queries:
+#+begin_src cypher
+CREATE INDEX ON :Drug(nodeID);
+CREATE INDEX ON :Gene(nodeID);
+CREATE INDEX ON :BiologicalProcess(nodeID);
+CREATE INDEX ON :Pathway(nodeID);
+CREATE INDEX ON :MolecularFunction(nodeID);
+CREATE INDEX ON :CellularComponent(nodeID);
+CREATE INDEX ON :Symptom(nodeID);
+CREATE INDEX ON :BodyPart(nodeID);
+CREATE INDEX ON :DrugClass(nodeID);
+CREATE INDEX ON :Disease(nodeID);
+CREATE INDEX ON :TranscriptionFactor (nodeID);
+#+end_src
+
+- To check the current storage mode, run:
+#+begin_src cypher
+ SHOW STORAGE INFO;
+#+end_src
+
+- Change the storage mode to analytical before import:
+#+begin_src cypher
+ STORAGE MODE IN_MEMORY_ANALYTICAL;
+#+end_src
+
+** Importing data into Memgraph
+- Drug nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':Drug' AND row.commonName <> ''
+ CREATE (d:Drug {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase,
+                 xrefCasRN: row.xrefCasRN, xrefDrugbank: row.xrefDrugbank});
+ 
+ MATCH (d:Drug)
+ RETURN count(d);
+#+end_src
+
+- Gene nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':Gene'
+ CREATE (g:Gene {nodeID: row._id, commonName: row.commonName, geneSymbol: row.geneSymbol, sourceDatabase: row.sourceDatabase,
+                 typeOfGene: row.typeOfGene, chromosome: row.chromosome, xrefEnsembl: row.xrefEnsembl, 
+                 xrefHGNC: row.xrefHGNC, xrefNcbiGene: toInteger(row.xrefNcbiGene), xrefOMIM: row.xrefOMIM});
+ 
+ MATCH (g:Gene)
+ RETURN count(g);
+#+end_src
+
+- BiologicalProcess nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':BiologicalProcess'
+ CREATE (b:BiologicalProcess {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase,
+                              xrefGeneOntology: row.xrefGeneOntology});
+ 
+ MATCH (b:BiologicalProcess)
+ RETURN count(b)
+#+end_src
+
+- Pathway nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':Pathway'
+ CREATE (p:Pathway {nodeID: row._id, pathwayId: row.pathwayId, pathwayName: row.pathwayName, sourceDatabase: row.sourceDatabase});
+ 
+ MATCH (p:Pathway)
+ RETURN count(p)
+#+end_src
+
+- MolecularFunction nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':MolecularFunction'
+ CREATE (m:MolecularFunction {nodeID: row._id, commonName: row.commonName, xrefGeneOntology: row.xrefGeneOntology});
+ 
+ MATCH (m:MolecularFunction)
+ RETURN count(m)
+#+end_src
+
+- CellularComponent nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':CellularComponent'
+ CREATE (c:CellularComponent {nodeID: row._id, commonName: row.commonName, xrefGeneOntology: row.xrefGeneOntology});
+ 
+ MATCH (c:CellularComponent)
+ RETURN count(c)
+#+end_src
+
+- Symptom nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':Symptom'
+ CREATE (s:Symptom {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase, xrefMeSH: row.xrefMeSH});
+ 
+ MATCH (s:Symptom)
+ RETURN count(s)
+#+end_src
+
+- BodyPart nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':BodyPart'
+ CREATE (b:BodyPart {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase, xrefUberon: row.xrefUberon});
+ 
+ MATCH (b:BodyPart)
+ RETURN count(b)
+#+end_src
+
+- DrugClass nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':DrugClass'
+ CREATE (d:DrugClass {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase, xrefNciThesaurus: row.xrefNciThesaurus});
+ 
+ MATCH (d:DrugClass)
+ RETURN count(d)
+#+end_src
+
+- Disease nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':Disease'
+ CREATE (d:Disease {nodeID: row._id, commonName: row.commonName, sourceDatabase: row.sourceDatabase, 
+                    xrefDiseaseOntology: row.xrefDiseaseOntology, xrefUmlsCUI: row.xrefUmlsCUI});
+                    
+ MATCH (d:Disease)
+ RETURN count(d)
+#+end_src
+
+- Transcription Factor nodes
+#+begin_src cypher
+ LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+ WITH row WHERE row._labels = ':TranscriptionFactor'
+ CREATE (t:TranscriptionFactor {nodeID: row._id, sourceDatabase: row.sourceDatabase, TF: row.TF});
+ MATCH (t:TranscriptionFactor)
+ RETURN count(t)
+#+end_src
+
+- GENEPARTICIPATESINBIOLOGICALPROCESS relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEPARTICIPATESINBIOLOGICALPROCESS'
+MATCH (g:Gene {nodeID: row._start}) MATCH (b:BiologicalProcess {nodeID: row._end}) 
+MERGE (g)-[rel:GENEPARTICIPATESINBIOLOGICALPROCESS]->(b) 
+RETURN count(rel)
+#+end_src
+
+- GENEREGULATESGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEREGULATESGENE'\
+MATCH (g:Gene {nodeID: row._start}) MATCH (g2:Gene {nodeID: row._end}) 
+MERGE (g)-[rel:GENEREGULATESGENE]->(g2) 
+RETURN count(rel)
+#+end_src
+
+- GENEINPATHWAY relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEINPATHWAY'
+MATCH (g:Gene {nodeID: row._start}) MATCH (p:Pathway {nodeID: row._end}) 
+MERGE (g)-[rel:GENEINPATHWAY]->(p) 
+RETURN count(rel)
+#+end_src
+
+- GENEINTERACTSWITHGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEINTERACTSWITHGENE'
+MATCH (g:Gene {nodeID: row._start}) MATCH (g2:Gene {nodeID: row._end}) 
+MERGE (g)-[rel:GENEINTERACTSWITHGENE]->(g2) 
+RETURN count(rel)
+#+end_src
+
+- BODYPARTUNDEREXPRESSESGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'BODYPARTUNDEREXPRESSESGENE'
+MATCH (b:BodyPart {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (b)-[rel:BODYPARTUNDEREXPRESSESGENE]->(g) 
+RETURN count(rel)
+#+end_src
+
+- BODYPARTOVEREXPRESSESGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'BODYPARTOVEREXPRESSESGENE'
+MATCH (b:BodyPart {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (b)-[rel:BODYPARTOVEREXPRESSESGENE]->(g) 
+RETURN count(rel)
+#+end_src
+
+- GENEHASMOLECULARFUNCTION relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEHASMOLECULARFUNCTION'
+MATCH (g:Gene {nodeID: row._start}) MATCH (m:MolecularFunction {nodeID: row._end}) 
+MERGE (g)-[rel:GENEHASMOLECULARFUNCTION]->(m) 
+RETURN count(rel)
+#+end_src
+
+- GENEASSOCIATEDWITHCELLULARCOMPONENT relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEASSOCIATEDWITHCELLULARCOMPONENT'
+MATCH (g:Gene {nodeID: row._start}) MATCH (c:CellularComponent {nodeID: row._end}) 
+MERGE (g)-[rel:GENEASSOCIATEDWITHCELLULARCOMPONENT]->(c) 
+RETURN count(rel)
+#+end_src
+
+- GENECOVARIESWITHGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENECOVARIESWITHGENE'
+MATCH (g:Gene {nodeID: row._start}) MATCH (g2:Gene {nodeID: row._end}) 
+MERGE (g)-[rel:GENECOVARIESWITHGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, correlation: ToInteger(row.correlation)}]->(g2) 
+RETURN count(rel)
+#+end_src
+
+- CHEMICALDECREASESEXPRESSION relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'CHEMICALDECREASESEXPRESSION'
+MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (d)-[rel:CHEMICALDECREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: ToInteger(row.z_score)}]->(g) 
+RETURN count(rel)
+#+end_src
+
+- CHEMICALINCREASESEXPRESSION relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'CHEMICALINCREASESEXPRESSION'
+MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (d)-[rel:CHEMICALINCREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: ToInteger(row.z_score)}]->(g) 
+RETURN count(rel)
+#+end_src
+
+- CHEMICALBINDSGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'CHEMICALBINDSGENE'
+MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (d)-[rel:CHEMICALBINDSGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, affinity_nM: ToInteger(row.affinity_nM)}]->(g) 
+RETURN count(rel)
+#+end_src
+
+- DRUGINCLASS relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'DRUGINCLASS'
+MATCH (d:Drug {nodeID: row._start}) MATCH (d2:DrugClass {nodeID: row._end}) 
+MERGE (d)-[rel:DRUGINCLASS]->(d2) 
+RETURN count(rel)
+#+end_src
+
+- GENEASSOCIATESWITHDISEASE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'GENEASSOCIATESWITHDISEASE'
+MATCH (g:Gene {nodeID: row._start}) MATCH (d:Disease {nodeID: row._end}) 
+MERGE (g)-[rel:GENEASSOCIATESWITHDISEASE {sourceDB: row.sourceDB, score: ToInteger(row.score)}]->(d) 
+RETURN count(rel)
+#+end_src
+
+- SYMPTOMMANIFESTATIONOFDISEASE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'SYMPTOMMANIFESTATIONOFDISEASE'
+MATCH (s:Symptom {nodeID: row._start}) MATCH (d:Disease {nodeID: row._end}) 
+MERGE (s)-[rel:SYMPTOMMANIFESTATIONOFDISEASE {sourceDB: row.sourceDB, unbiased: row.unbiased, p_fisher: row.p_fisher}]->(d) 
+RETURN count(rel)
+#+end_src
+
+- DISEASELOCALIZESTOANATOMY relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'DISEASELOCALIZESTOANATOMY'
+MATCH (d:Disease {nodeID: row._start}) MATCH (b:BodyPart {nodeID: row._end}) 
+MERGE (d)-[rel:DISEASELOCALIZESTOANATOMY {sourceDB: row.sourceDB, unbiased: row.unbiased, p_fisher: row.p_fisher}]->(b) 
+RETURN count(rel)
+#+end_src
+
+- DRUGTREATSDISEASE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'DRUGTREATSDISEASE'
+MATCH (d:Drug {nodeID: row._start}) MATCH (d2:Disease {nodeID: row._end}) 
+MERGE (d)-[rel:DRUGTREATSDISEASE]->(d2) 
+RETURN count(rel)
+#+end_src
+
+- DRUGCAUSESEFFECT relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'DRUGCAUSESEFFECT'
+MATCH (d:Drug {nodeID: row._start}) MATCH (d2:Disease {nodeID: row._end}) 
+MERGE (d)-[rel:DRUGCAUSESEFFECT]->(d2) 
+RETURN count(rel)
+#+end_src
+
+- TRANSCRIPTIONFACTORINTERACTSWITHGENE relationships
+#+begin_src cypher
+LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
+WITH row WHERE row._type = 'TRANSCRIPTIONFACTORINTERACTSWITHGENE'
+MATCH (t:TranscriptionFactor {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
+MERGE (t)-[rel:TRANSCRIPTIONFACTORINTERACTSWITHGENE {sourceDB: row.sourceDB, confidence: row.confidence}]->(g) 
+RETURN count(rel)
+#+end_src
+
+** Switching Back to Transactional Storage Mode
+After importing the data, follow these steps to switch back to the transactional storage mode:
+- Switch to Transactional Storage Mode:
+#+begin_src cypher
+ STORAGE MODE IN_MEMORY_TRANSACTIONAL;
+#+end_src
+
+- Verify the Storage Mode Switch:
+#+begin_src cypher
+ SHOW STORAGE INFO;
 #+end_src
