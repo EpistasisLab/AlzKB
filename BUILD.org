@@ -473,9 +473,10 @@ More details are in [[https://memgraph.com/docs/getting-started/install-memgraph
 
 ** Generating the CSV File
 Before uploading the file to Memgrpah, run =alzkb/rdf_to_memgraph_csv.py= with the =alzkb_v2-populated.rdf= file to generate =alzkb-populated.csv=.
+Then run =populate_edge_weights.py= to create =alzkb_with_edge_properties.csv= file if you want to add edge properies to the knowledge graph. 
 
 ** Starting Memgraph with Docker
-Follow the instructions in [[https://memgraph.com/docs/data-migration/migrate-from-neo4j#importing-data-into-memgraph][importing-data-into-memgraph]] Step 1. Starting Memgraph with Docker to upload the =alzkb-populated.csv= file to the container.
+Follow the instructions in [[https://memgraph.com/docs/data-migration/migrate-from-neo4j#importing-data-into-memgraph][importing-data-into-memgraph]] Step 1. Starting Memgraph with Docker to upload the =alzkb-populated.csv= or =alzkb_with_edge_properties.csv= file to the container.
 
 Open Memgraph Lab. Memgraph Lab is available at =http://localhost:3000=. Click the =Query Execution= in MENU on the left bar. Then, you can type a Cypher query in the =Cypher Editor=.
 
@@ -632,7 +633,7 @@ RETURN count(rel)
 - GENEREGULATESGENE relationships
 #+begin_src cypher
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
-WITH row WHERE row._type = 'GENEREGULATESGENE'\
+WITH row WHERE row._type = 'GENEREGULATESGENE'
 MATCH (g:Gene {nodeID: row._start}) MATCH (g2:Gene {nodeID: row._end}) 
 MERGE (g)-[rel:GENEREGULATESGENE]->(g2) 
 RETURN count(rel)
@@ -697,7 +698,7 @@ RETURN count(rel)
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
 WITH row WHERE row._type = 'GENECOVARIESWITHGENE'
 MATCH (g:Gene {nodeID: row._start}) MATCH (g2:Gene {nodeID: row._end}) 
-MERGE (g)-[rel:GENECOVARIESWITHGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, correlation: ToInteger(row.correlation)}]->(g2) 
+MERGE (g)-[rel:GENECOVARIESWITHGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, correlation: row.correlation}]->(g2) 
 RETURN count(rel)
 #+end_src
 
@@ -706,7 +707,7 @@ RETURN count(rel)
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
 WITH row WHERE row._type = 'CHEMICALDECREASESEXPRESSION'
 MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
-MERGE (d)-[rel:CHEMICALDECREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: ToInteger(row.z_score)}]->(g) 
+MERGE (d)-[rel:CHEMICALDECREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: row.z_score}]->(g) 
 RETURN count(rel)
 #+end_src
 
@@ -715,7 +716,7 @@ RETURN count(rel)
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
 WITH row WHERE row._type = 'CHEMICALINCREASESEXPRESSION'
 MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
-MERGE (d)-[rel:CHEMICALINCREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: ToInteger(row.z_score)}]->(g) 
+MERGE (d)-[rel:CHEMICALINCREASESEXPRESSION {sourceDB: row.sourceDB, unbiased: row.unbiased, z_score: row.z_score}]->(g) 
 RETURN count(rel)
 #+end_src
 
@@ -724,7 +725,7 @@ RETURN count(rel)
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
 WITH row WHERE row._type = 'CHEMICALBINDSGENE'
 MATCH (d:Drug {nodeID: row._start}) MATCH (g:Gene {nodeID: row._end}) 
-MERGE (d)-[rel:CHEMICALBINDSGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, affinity_nM: ToInteger(row.affinity_nM)}]->(g) 
+MERGE (d)-[rel:CHEMICALBINDSGENE {sourceDB: row.sourceDB, unbiased: row.unbiased, affinity_nM: row.affinity_nM}]->(g) 
 RETURN count(rel)
 #+end_src
 
@@ -742,7 +743,7 @@ RETURN count(rel)
 LOAD CSV FROM "/usr/lib/memgraph/alzkb-populated.csv" WITH HEADER AS row
 WITH row WHERE row._type = 'GENEASSOCIATESWITHDISEASE'
 MATCH (g:Gene {nodeID: row._start}) MATCH (d:Disease {nodeID: row._end}) 
-MERGE (g)-[rel:GENEASSOCIATESWITHDISEASE {sourceDB: row.sourceDB, score: ToInteger(row.score)}]->(d) 
+MERGE (g)-[rel:GENEASSOCIATESWITHDISEASE {sourceDB: row.sourceDB, score: row.score}]->(d) 
 RETURN count(rel)
 #+end_src
 
