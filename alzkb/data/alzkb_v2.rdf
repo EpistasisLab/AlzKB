@@ -1,0 +1,2463 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://jdr.bio/ontologies/comptox.owl"
+     xml:base="http://jdr.bio/ontologies/comptox.owl"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:alzkb="http://jdr.bio/ontologies/alzkb.owl#"
+     xmlns:comptox="http://jdr.bio/ontologies/comptox.owl#">
+    <owl:Ontology rdf:about="http://jdr.bio/ontologies/alzkb.owl">
+        <owl:versionIRI rdf:resource="http://jdr.bio/ontologies/alzkb.owl/0.2.0"/>
+        <alzkb:language xml:lang="en">English</alzkb:language>
+        <rdfs:comment xml:lang="en">A note on classes vs. individuals:
+
+In this ontology, individuals are modeled as the idealised entities  corresponding to examples of a certain class. For example, &apos;paroxetine&apos; is an individual of the class Chemical, and &apos;hsdl1&apos; is an individual of the class Gene. Other ontologies may choose to model these instead as subclasses (e.g., Paroxetine is a subclass of Chemical), and individuals are physical realizations of those classes (e.g., a specific molecule of Paroxetine in the real world).
+
+The decision to model idealised entities as individuals rather than classes allows us stricter control over the logical assumptions we apply to all entities of a related type. For many use cases, it is often appropriate to take the alternative approach.
+
+Furthermore, this is beneficial when the ontology is used to populate a graph database. Each individual in the ontology corresponds to a node in the graph database, data properties on those individuals correspond to node attributes, and object properties corresond to edges in the graph.</rdfs:comment>
+        <rdfs:comment xml:lang="en">An ontology describing entities relevant to Alzheimer&apos;s disease etiology and entities relevant to drug discovery for Alzheimer&apos;s disease.</rdfs:comment>
+        <owl:versionInfo xml:lang="en">0.1.0a</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#associationIsTherapeutic -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#associationIsTherapeutic"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#directionOfDifferentialExpression -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#directionOfDifferentialExpression"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#fundedBy -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#fundedBy">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#includesConceptClasses -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#includesConceptClasses">
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Database"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#individualLabelPrefix -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#individualLabelPrefix">
+        <rdfs:comment>String prefix that precedes the unique label on a named individual of the corresponding class. This is necessary to avoid duplicate labels, which result in invalid RDF/XML. Note that the data property &quot;commonName&quot; should also be set, preserving punctuation and whitespace, and omitting the individualLabelPrefix</rdfs:comment>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#language -->
+
+    <owl:AnnotationProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#language"/>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
+
+    <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#comment">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GeneOntologyObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneOntologyObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#altersBiologicalState -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#altersBiologicalState">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+        <rdfs:comment>The entity that is being altered via the KE.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#anatomyDownregulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#anatomyDownregulatesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#anatomyExpressesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#anatomyExpressesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#anatomyUpregulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#anatomyUpregulatesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aoEquivalentToAdverseEffect -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aoEquivalentToAdverseEffect">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#AdverseEffect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aoManifestedAsDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aoManifestedAsDisease">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopCausesAO -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopCausesAO">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopHasMIE -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopHasMIE">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopIncludesKE -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopIncludesKE">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#bodyPartExpressesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#bodyPartExpressesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#bodyPartObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#bodyPartObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#bodyPartObjectProperty">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#bodyPartOverexpressesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#bodyPartOverexpressesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#bodyPartObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#bodyPartUnderexpressesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#bodyPartUnderexpressesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#bodyPartObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalAffectsExpression -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalAffectsExpression">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalAssociatesWithDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalAssociatesWithDisease">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalBindsGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalBindsGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalCausesEffect -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalCausesEffect">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalDecreasesExpression -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalDecreasesExpression">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalAffectsExpression"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <owl:propertyDisjointWith rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalIncreasesExpression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalHasActiveAssay -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalHasActiveAssay">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalHasInactiveAssay -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalHasInactiveAssay">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalInList -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalInList">
+        <owl:inverseOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listIncludesChemical"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalList"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalIncreasesExpression -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalIncreasesExpression">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalAffectsExpression"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#containsCellType -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#containsCellType">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Organ"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#containsOrgan -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#containsOrgan">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#OrganSystem"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Organ"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#describedInPublication -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#describedInPublication">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#researchEntityObjectProperty"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+                    <owl:Class>
+                        <owl:complementOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Publication"/>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Publication"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseAssociatesWithDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseAssociatesWithDisease">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseDownregulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseDownregulatesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseLocalizesToAnatomy -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseLocalizesToAnatomy">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseManifestedAsPhenotype -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseManifestedAsPhenotype">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#phenotypeManifestationOfDisease"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseRegulatesGeneOther -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseRegulatesGeneOther">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseUpregulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseUpregulatesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#drugCausesEffect -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#drugCausesEffect">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Drug"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#drugInClass -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#drugInClass">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Drug"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#DrugClass"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#drugTreatsDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#drugTreatsDisease">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalAssociatesWithDisease"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <alzkb:associationIsTherapeutic rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</alzkb:associationIsTherapeutic>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#enzymeHasIsozyme -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#enzymeHasIsozyme">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty"/>
+        <rdfs:comment>Two proteins are isozymes if they are comprised of different amino acid sequences but catalyze the same enzymatic reaction. Isozymes often have different reaction rates and respond differently in various environmental settings. They may also be regulated through different regulatory mechanisms.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#expressedInCellType -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#expressedInCellType">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#expressesProtein"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#expressesProtein -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#expressesProtein">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#fromSpecies -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#fromSpecies">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Biotoxin"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Species"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneAssociatedWithCellularComponent -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneAssociatedWithCellularComponent">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneOntologyObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellularComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneAssociatesWithDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneAssociatesWithDisease">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneCovariesWithGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneCovariesWithGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneHasMolecularFunction -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneHasMolecularFunction">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneOntologyObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MolecularFunction"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneInPathway -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneInPathway">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneInteractsWithGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneInteractsWithGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneParticipatesInBiologicalProcess -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneParticipatesInBiologicalProcess">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneOntologyObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BiologicalProcess"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneRegulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneRegulatesGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hasAssociatedStudy -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hasAssociatedStudy">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#researchEntityObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Study"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hasEquivalentDiseaseOrPhenotype -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hasEquivalentDiseaseOrPhenotype">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype"/>
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hasEtiology -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hasEtiology">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent"/>
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Mutation"/>
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hasIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hasIngredient">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Drug"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hasProteinProduct -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hasProteinProduct">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#hetionetObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#includesMetabolite -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#includesMetabolite">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#includesProtein -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#includesProtein">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keIncludedInAOP -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keIncludedInAOP">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventHasTargetStructure -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventHasTargetStructure">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventTriggeredBy -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventTriggeredBy">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventTriggers -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventTriggers">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#listIncludesChemical -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#listIncludesChemical">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalList"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#pathwayContainsGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#pathwayContainsGene">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#pathwayRegulatesGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#pathwayRegulatesGene">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticPathway"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#phenotypeManifestationOfDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#phenotypeManifestationOfDisease">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#proteinCodedByGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#proteinCodedByGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#proteinExpressedInCellType -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#proteinExpressedInCellType">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#proteinHasIsoform -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#proteinHasIsoform">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#proteinObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#researchEntityObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#researchEntityObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#riskGoverenedByExposure -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#riskGoverenedByExposure">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#EnvironmentalRiskFactor"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#riskGovernedByGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#riskGovernedByGene">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticRiskFactor"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#structuralEntityObjectProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#symptomManifestationOfDisease -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#symptomManifestationOfDisease">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Symptom"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#toxinFromClass -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#toxinFromClass">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Toxin"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#toxinFromSource -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#toxinFromSource">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Toxin"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#toxinHasModeOfAction -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#toxinHasModeOfAction">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Toxin"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#toxinObjectProperty">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#transcriptionFactorInteractsWithGene -->
+
+    <owl:ObjectProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#transcriptionFactorInteractsWithGene">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#TranscriptionFactor"/>
+        <rdfs:range rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#TF -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#TF"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#aopName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#aopName">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#assayDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#assayDataProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#assayTarget -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#assayTarget">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#assayDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#cellLine -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#cellLine">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#assayDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#cellType -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#cellType">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#assayDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalIsDrug -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalIsDrug">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment xml:lang="en">If True, chemical is a known pharmaceutical drug. Effectively, this means that it is present in DrugBank, but this de facto definition may be modified in the future.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalIsInCTD -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalIsInCTD">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment xml:lang="en">If True, chemical is present in the Comparative Toxicogenomics Database.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalIsXenobiotic -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalIsXenobiotic">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment xml:lang="en">If True, chemical is considered foreign to the human body.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chemicalStructureProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chemicalStructureProperty">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#chromosome -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#chromosome">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#commonName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#commonName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A string used to name the entity. This provides a more useful way to label nodes without the prefixes needed to prevent conflicts when nodes in different classes have the same common name. This common name should also be safe to use with punctuation and whitespace characters (which should be removed from node names).</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#dbXref -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#dbXref">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#diseaseComplexity -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#diseaseComplexity">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticDisease"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneDataProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneSymbol -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneSymbol">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#geneSynonyms -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#geneSynonyms">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#inchi -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#inchi">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#inchiKey -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#inchiKey">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventAction -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventAction">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventName">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#keyEventType -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#keyEventType">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#listAcronym -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#listAcronym">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#List"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#listDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#listDataProperty"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#listDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#listDescription">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#List"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#listUrl -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#listUrl">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#List"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#maccs -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#maccs">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalStructureProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">MACCS fingerprint is stored as a string where each character is a bit representing an individual feature.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#objectName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#objectName">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#objectSource -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#objectSource">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#pathwayId -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#pathwayId">
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#int"/>
+                    <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#string"/>
+                </owl:unionOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#pathwayName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#pathwayName">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#processName -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#processName">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#processSource -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#processSource">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#sourceDatabase -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#sourceDatabase">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#synonym -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#synonym">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#targetCategory -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#targetCategory">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#assayDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#typeOfGene -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#typeOfGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneDataProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#unbiased -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#unbiased">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#aopDataProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiAOPID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiAOPID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKEID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKEID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKERID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKERID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiStressorID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiStressorID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWiki"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefCL -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefCL">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:comment>Term from the Cell Ontology (CL)</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefCasRN -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefCasRN">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefChEBI -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefChEBI">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:comment>Term from Chemical Entities of Biological Interest (ChEBI)</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefDTXSID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefDTXSID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">DSSTox substance identifier. This is the main &apos;unit of ground truth&apos; for chemicals in ComptoxAI.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefDiseaseOntology -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefDiseaseOntology">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Note: Due to inconsistencies in granularity, some diseases may have multiple DOIDs.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefDrugbank -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefDrugbank">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefEnsembl -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefEnsembl">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefFMA -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefFMA">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:comment>Term from the Foundational Model of Anatomy (FMA)</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefGSID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefGSID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment xml:lang="en">EPA GSID. This has been largely superceded by DSSTOX IDs, but web services and Invitrodb still identify chemicals using GSID.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefGeneOntology -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefGeneOntology">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefHGNC -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefHGNC">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefMeSH -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefMeSH">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Any medical subject heading (does not include supplemental terms, such as the UIs that point to specific compounds).</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefMeSHParents -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefMeSHParents">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefMeSHUI -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefMeSHUI">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>A MeSH &quot;Unique ID&quot;. This is different from a true subject heading, and is usually a controlled term for a chemical substance.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefNcbiGene -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefNcbiGene">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefNciThesaurus -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefNciThesaurus">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefOMIM -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefOMIM">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefPubchemCID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefPubchemCID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefPubchemSID -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefPubchemSID">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefUberon -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefUberon">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefUmlsCUI -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefUmlsCUI">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#xrefUnknownPathway -->
+
+    <owl:DatatypeProperty rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefUnknownPathway">
+        <rdfs:subPropertyOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#dbXref"/>
+        <rdfs:domain rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Pathway ID from an unknown (or deprecated) pathway database.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#AdverseEffect -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#AdverseEffect">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefUmlsCUI"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>Detrimental phenotypic effect resulting from exposure to a chemical</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#AnimalToxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#AnimalToxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Biotoxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#BiologicalProcess -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#BiologicalProcess">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Biotoxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Biotoxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Toxin"/>
+        <owl:disjointWith rdf:resource="http://jdr.bio/ontologies/alzkb.owl#SyntheticToxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#BodyPart -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#BodyPart">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#anatomyDownregulatesGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#anatomyExpressesGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#anatomyUpregulatesGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefUberon"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <alzkb:individualLabelPrefix>se_</alzkb:individualLabelPrefix>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#CellType -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#CellType">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#expressesProtein"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#CellularComponent -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#CellularComponent">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Chemical -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Chemical">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalInList"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalList"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalAssociatesWithDisease"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalCausesEffect"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#drugTreatsDisease"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#chemicalIsInCTD"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefCasRN"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefDrugbank"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefMeSHParents"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <alzkb:individualLabelPrefix>chem_</alzkb:individualLabelPrefix>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ChemicalList -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ChemicalList">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listIncludesChemical"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#commonName"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listAcronym"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listDescription"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#listUrl"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept"/>
+        <rdfs:comment xml:lang="en">Chemical Lists defined by the US EPA and used in the EPA&apos;s Comptox Dashboard web application. These lists are scraped from the Dashboard&apos;s public-facing API.
+
+A chemical list is loosely defined, but they can be thought of in broad terms as functional classes of chemicals. They range in size from a few chemicals to tens of thousands of chemicals.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#phenotypeManifestationOfDisease"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefMeSH"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <alzkb:individualLabelPrefix>phen_</alzkb:individualLabelPrefix>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#CopyNumberVariant -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#CopyNumberVariant">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Variant"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Database -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Database">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#describedInPublication"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Publication"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>Any database that is relevant to computational toxicology (not necessarily intended to be used primarily for toxicology - e.g., PubChem).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Disease -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Disease">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseAssociatesWithDisease"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseDownregulatesGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseLocalizesToAnatomy"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseManifestedAsPhenotype"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ClinicalPhenotype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseRegulatesGeneOther"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseUpregulatesGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasEtiology"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent"/>
+                            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Mutation"/>
+                            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefDiseaseOntology"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefMeSH"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <alzkb:individualLabelPrefix>dis_</alzkb:individualLabelPrefix>
+        <rdfs:comment xml:lang="en">A disease is defined as a medical condition with a deleterious effect.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Drug -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Drug">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasIngredient"/>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                        <owl:onClass rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#drugCausesEffect"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#drugInClass"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#DrugClass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasIngredient"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">A chemical substance that causes a change in an organism&apos;s physiology or psychology when consumed or administered. This ontology primarily considers the effects of drugs when administered on humans.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#DrugClass -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#DrugClass">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#EnvironmentalRiskFactor -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#EnvironmentalRiskFactor">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#riskGoverenedByExposure"/>
+                        <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticRiskFactor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ExposureEvent -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Finding -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Finding">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#FungalToxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#FungalToxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Biotoxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GainOfFunctionMutation -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#GainOfFunctionMutation">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Mutation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Gene -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Gene">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticEntity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasProteinProduct"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#geneSymbol"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefNcbiGene"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <alzkb:individualLabelPrefix>gene_</alzkb:individualLabelPrefix>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GeneticDisease -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticDisease">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasEtiology"/>
+                        <owl:allValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticRiskFactor"/>
+                                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Mutation"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:allValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#diseaseComplexity"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#rational"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GeneticEntity -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticEntity">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GeneticPathway -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticPathway">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#pathwayRegulatesGene"/>
+                        <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#GeneticRiskFactor -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticRiskFactor">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#riskGovernedByGene"/>
+                        <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Human -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Human">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Species"/>
+        <owl:disjointWith rdf:resource="http://jdr.bio/ontologies/alzkb.owl#NonHumanSpecies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#HumanConcept -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#HumanMolecule -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanMolecule">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#HumanNucleicAcid -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanNucleicAcid">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanMolecule"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#HumanProtein -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanProtein">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanMolecule"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinCodedByGene"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Gene"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinExpressedInCellType"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#proteinHasIsoform"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#HumanSmallMolecule -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanSmallMolecule">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanMolecule"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#List -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#List">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#LossOfFunctionMutation -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#LossOfFunctionMutation">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Mutation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#MedicalCondition -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefOMIM"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#MetabolicPathway -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#MetabolicPathway">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+        <owl:disjointWith rdf:resource="http://jdr.bio/ontologies/alzkb.owl#SignalTransductionPathway"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#MicrobialToxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#MicrobialToxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Biotoxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#MolecularFunction -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#MolecularFunction">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Mutation -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Mutation">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#NonHumanSpecies -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#NonHumanSpecies">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Species"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Organ -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Organ">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#containsCellType"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#OrganSystem -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#OrganSystem">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#containsOrgan"/>
+                <owl:someValuesFrom rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Organ"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Pathway -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Pathway">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#xrefUnknownPathway"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Pathways are taken from AOP-DB&apos;s pathway_gene table, which includes pathways from many taxa taken from a large number of source databases. We only include pathways with taxid 9606 (humans), but we don&apos;t filter based on source database. Therefore, we can&apos;t be 100% sure that there isn&apos;t duplication, and we haven&apos;t created individual node properties for each of the source database xrefs. Generally, the &apos;sourceDatabase&apos; property can be used along with the format of the pathwayId to determine where the pathway originally came from.
+
+Note that each gene can be in potentially many pathways, and each pathway can contain potentially many genes.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#PharmaceuticalDrug -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#PharmaceuticalDrug">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Drug"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#drugTreatsDisease"/>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                        <owl:onClass rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Drug"/>
+        <rdfs:comment xml:lang="en">A drug with an intended beneficial effect, intended to &apos;treat, cure, prevent, or diagnose a disease or promote well-being.&apos;</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#PlantToxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#PlantToxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Biotoxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Publication -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Publication">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#ResearchEntity -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://jdr.bio/ontologies/alzkb.owl#hasAssociatedStudy"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Study"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#RiskFactor -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#SignalTransductionPathway -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#SignalTransductionPathway">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#SingleNucleotidePolymorphism -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#SingleNucleotidePolymorphism">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Variant"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Species -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Species"/>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Study -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Study">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ResearchEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Symptom -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Symptom">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#MedicalCondition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#SyntheticToxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#SyntheticToxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Toxin"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#TherapeuticEffect -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#TherapeuticEffect">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#ChemicalEffect"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#TissueType -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#TissueType">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Toxin -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Toxin">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#Chemical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#TranscriptionFactor -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#TranscriptionFactor">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#HumanConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#Variant -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#Variant">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#GeneticEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://jdr.bio/ontologies/alzkb.owl#VenomComponent -->
+
+    <owl:Class rdf:about="http://jdr.bio/ontologies/alzkb.owl#VenomComponent">
+        <rdfs:subClassOf rdf:resource="http://jdr.bio/ontologies/alzkb.owl#AnimalToxin"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#AnimalToxin"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#FungalToxin"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#MicrobialToxin"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#PlantToxin"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#BodyPart"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Disease"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#ExposureEvent"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#GeneticEntity"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Human"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Pathway"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#RiskFactor"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#CellType"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanMolecule"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Organ"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#OrganSystem"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Database"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Finding"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Publication"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#Study"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanNucleicAcid"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanProtein"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#HumanSmallMolecule"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointProperties"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiAOPID"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKEID"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiKERID"/>
+            <rdf:Description rdf:about="http://jdr.bio/ontologies/alzkb.owl#xrefAOPWikiStressorID"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

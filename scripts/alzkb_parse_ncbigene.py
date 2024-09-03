@@ -29,13 +29,15 @@ def filterLargeTextFile(source, destination, delimiter, keep_index):
 
         #load body
         for line in r:
-            if line is not None:
+            #if line is not None:
+            if line.startswith('9606'): #filter to Homo sapiens (human)
                 w.write(keepDesiredColums(line, keep_index, delimiter) + '\n')
     r.close(), w.close()
 
 def fileIndexFinder(source, destination, keep_set, compare_column_index, separator):
+    count_rows =0
     with open(source, "r") as r, open(destination, "w") as w:
-        w.write('Ensembl' + separator +  r.readline())
+        w.write('data_resource' + separator + 'Ensembl' + separator +  r.readline())
 
         for line in r:
             columns = line.split(separator)
@@ -46,23 +48,26 @@ def fileIndexFinder(source, destination, keep_set, compare_column_index, separat
                 if len(parsed_column_split) > 2:
                     parsed_column = parsed_column_split[2].replace('Ensembl:', '')
 
-            if parsed_column in keep_set:
-                w.write(parsed_column + separator + line)
+            #if parsed_column in keep_set: # keep all instead of filtering to brain
+            w.write('NCBI Gene' + separator + parsed_column + separator + line)
+            count_rows +=1 
+                
+    print(count_rows)
     r.close()
 
 
-brain_file='./Homo_sapiens_expr_advanced_development.tsv' #https://bgee.org/?page=download&action=expr_calls#id1
+brain_file='./Homo_sapiens_expr_advanced.tsv' #https://bgee.org/?page=download&action=expr_calls#id1 Homo_sapiens_expr_advanced_development
 gene_file='../Homo_sapiens.gene_info' #https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz
 gene_dest_file='./Homo_sapiens.gene_info_filtered'
 
 final_out='./output.tsv'
 
 delimiter = '\t'
-keep_index = [1,2,4,5,6,8,9]
+keep_index = [1,2,4,5,6,8,9,11]
 compare_index = 0
 
 processLargeTextFile(brain_file, compare_index, delimiter)
+print(len(my_set)) 
 
 filterLargeTextFile(gene_file, gene_dest_file, delimiter, keep_index)
-
-fileIndexFinder(gene_dest_file, final_out, my_set, 3,  delimiter)
+fileIndexFinder(gene_dest_file, final_out, my_set, 3,  delimiter) 
