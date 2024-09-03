@@ -1,6 +1,9 @@
 # AlzKB (http://alzkb.ai/)
 
 A knowledge base for AI research in Alzheimer Disease, based on graph databases. 
+![image](https://github.com/user-attachments/assets/4106ebe7-0d36-4fc6-a360-5174597f6f7b)
+
+_Please note DRUGCAUSESEFFECT in AlzKB refers to drug causes of side effects._
 
 ### Authors
 
